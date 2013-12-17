@@ -63,10 +63,23 @@ inversion of gas-comment-region"
       (next-line))
     (goto-char end)))
 
+;;; Added by Fei
 ;;; map "jj" to ESC
 (add-to-list 'load-path "./fei/")
 (require 'key-chord)
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 (key-chord-mode 1)
+
+;;; init windows
+(split-window-horizontally)
+(split-window-horizontally)
+(balance-windows)
+
+;;; set c indent with two spaces
+(setq-default c-basic-offset 2)
+
+;;; bind F5 to compile
+(global-set-key (kbd "<f5>") 'compile)
+
 
