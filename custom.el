@@ -8,7 +8,7 @@
 (menu-bar-mode t)
 
 ;;; You email address
-(setq user-mail-address "xiaohanyu1988@gmail.com")
+(setq user-mail-address "feixia@cs.cmu.edu")
 
 ;;; Calendar settings
 ;; you can use M-x sunrise-sunset to get the sun time
@@ -62,3 +62,11 @@ inversion of gas-comment-region"
           (delete-char 1))
       (next-line))
     (goto-char end)))
+
+;;; map "jj" to ESC
+(add-to-list 'load-path "./fei/")
+(require 'key-chord)
+(setq key-chord-two-keys-delay 0.5)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-mode 1)
+
