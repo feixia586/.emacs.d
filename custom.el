@@ -78,7 +78,11 @@ inversion of gas-comment-region"
 ;;; set c indent with two spaces
 (setq-default c-basic-offset 2)
 
-;;; bind F5 to compile
+;;; compile issue
+;; bind F5 to compile -- makefile in current directory
 (global-set-key (kbd "<f5>") 'compile)
-
+;; bind F6 to compile -- makefile in parent directory
+(global-set-key [f6] (lambda () (interactive) (compile (format "make -k -C .." ))))
+;; no compilation command and don't need to press enter
+(setq compilation-read-command nil);
 
