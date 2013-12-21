@@ -73,7 +73,6 @@ inversion of gas-comment-region"
 
 ;;; init windows
 (split-window-horizontally)
-(split-window-horizontally)
 (balance-windows)
 
 ;;; set c indent with two spaces
