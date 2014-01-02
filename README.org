@@ -196,6 +196,6 @@ editor".
 
 * Tips
 - You need to install =emacs24-el= in ubuntu, or =org-export= won't work. I
-  don't know why. :-)
+  don't know why.
 * Footnotes
 [1] [[http://en.wikipedia.org/wiki/Editor_war][Editor war]]
