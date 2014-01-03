@@ -86,3 +86,5 @@ inversion of gas-comment-region"
 ;; no compilation command and don't need to press enter
 (setq compilation-read-command nil);
 
+;; add *.cu file to C++ mode
+(setq auto-mode-alist(cons '("\\.cu$"   . c++-mode)  auto-mode-alist))
