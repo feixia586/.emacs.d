@@ -87,8 +87,8 @@ inversion of gas-comment-region"
 (setq compilation-read-command nil);
 
 ;; add *.cu file to C++ mode
-; (setq auto-mode-alist(cons '("\\.cu$"   . c++-mode)  auto-mode-alist))
+(setq auto-mode-alist(cons '("\\.cu$"   . c++-mode)  auto-mode-alist))
 
 ;; activate cuda mode
-(autoload 'cuda-mode "cuda-mode.el")
-(add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
+;(autoload 'cuda-mode "cuda-mode.el")
+;(add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
