@@ -94,7 +94,7 @@ inversion of gas-comment-region"
 ;(add-to-list 'auto-mode-alist '("\\.cu\\'" . cuda-mode))
 
 ;; define function to comment current line or active region
-(defun comment-or-uncomment-region-or-line ()
+(defun comment-or-uncomment-line-or-region ()
     "Comments or uncomments the region or the current line if there's no active region."
     (interactive)
     (let (beg end)
@@ -103,4 +103,37 @@ inversion of gas-comment-region"
             (setq beg (line-beginning-position) end (line-end-position)))
         (comment-or-uncomment-region beg end)
         (next-line)))
-(define-key c-mode-base-map (kbd "C-/") 'comment-or-uncomment-line-or-region)
+(global-set-key (kbd "C-M-;") 'comment-or-uncomment-line-or-region)
+;(define-key c-mode-base-map (kbd "C-/") 'comment-or-uncomment-line-or-region)
+
+;; add pdflatex engine for tex. Methods: M-x group-customize -> auctex -> tex-command
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(TeX-engine-alist (quote ((pdflatex "pdflatex" "pdftex" "pdflatex" "")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; set default tex engine
+(setq-default TeX-engine 'pdflatex)
+
+;; Setting up matlab-mode
+(add-to-list 'load-path "~/.emacs.d/fei/matlab-emacs")
+(load-library "matlab-load")
+(custom-set-variables
+ '(matlab-shell-command-switches '("-nodesktop -nosplash")))
+(add-hook 'matlab-mode
+        (lambda ()
+          (auto-complete-mode 1)
+          ))
+(setq auto-mode-alist
+    (cons
+     '("\\.m$" . matlab-mode)
+     auto-mode-alist))
+
