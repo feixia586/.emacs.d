@@ -133,8 +133,8 @@ inversion of gas-comment-region"
           (auto-complete-mode 1)
           ))
 (setq matlab-auto-indent t)
+(setq matlab-function-indent t)
 (setq auto-mode-alist
     (cons
      '("\\.m$" . matlab-mode)
      auto-mode-alist))
-
