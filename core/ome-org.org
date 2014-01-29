@@ -20,11 +20,55 @@ which is also *implemented using* Org-mode and [[http://git-scm.com/][git]].
 
 #+NAME: org-el-get-packages
 #+CAPTION: El-get packages for ome-org module
-|            | Status      | Description                      |
-|------------+-------------+----------------------------------|
-| [[http://www.emacswiki.org/emacs/Htmlize][htmlize]].el | Recommended | Export an buffer to html format. |
-| [[http://staff.science.uva.nl/~dominik/Tools/cdlatex/][CDLaTeX]]    | Recommended | Speedy \LaTeX{} input.           |
+|            | Status      | Description                               |
+|------------+-------------+-------------------------------------------|
+| [[http://orgmode.org/][org-mode]]   | Required    | One of the killer Apps on Emacs platform. |
+| [[http://www.emacswiki.org/emacs/Htmlize][htmlize]].el | Recommended | Export an buffer to html format.          |
+| [[http://staff.science.uva.nl/~dominik/Tools/cdlatex/][CDLaTeX]]    | Recommended | Speedy \LaTeX{} input.                    |
 
+* Org-mode upgrade
+  :PROPERTIES:
+  :CUSTOM_ID: org-mode-upgrade
+  :END:
+
+#+BEGIN_QUOTE
+Org 8.0 is the most disruptive major version of Org.
+
+-- http://orgmode.org/Changes_old.html
+#+END_QUOTE
+
+So why upgrade? Because it is there, it is the future of org-mode. Second, I
+want to export my org files to markdown format, sometimes, and org-mode 8.x
+provide a new great export engine, which is one of the most exciting features
+of org-mode 8.x, check [[http://article.gmane.org/gmane.emacs.orgmode/65574][the mailing list]] for original announcing post. For other
+features, check [[http://orgmode.org/worg/org-8.0.html][org 8.0 upgrading doc]].
+
+You can get the latest org-mode by =M-x el-get-install RET org-mode=
+directly. However, with oh-my-emacs, we need some tricks to make it work.
+
+Oh-my-emacs use =org-babel= from =org-mode= to provide a literate emacs
+configuration, so we need to =(require 'org)= just after oh-my-emacs
+starts. However, by default, oh-my-emacs will load the builtin =org-mode=
+instead of the latest =org-mode= package from =el-get=. To replace the builtin
+=org-mode= with the latest =org-mode= from =el-get= when we boot oh-my-emacs
+even for the initial oh-my-emacs setup, we need to install =org-mode= just
+after =el-get= setup, that means, =org-mode= should be the first package to be
+installed via =el-get=, this can be done by putting the following code snippet
+to =$HOME/.emacs.d/init.el=:
+
+#+NAME: org-mode-upgrade
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defun ome-org-mode-setup ()
+    ;; markdown export support
+    (require 'ox-md))
+
+  (add-to-list 'el-get-sources
+               '(:name org-mode
+                       :after (progn
+                                (ome-org-mode-setup))))
+
+  (el-get 'sync (mapcar 'el-get-source-name el-get-sources))
+#+END_SRC
 
 * Keybindings
   :PROPERTIES:
@@ -127,7 +171,7 @@ file using the `org-babel-lob-ingest' function.
 while respecting display properties such as colors, fonts, underlining,
 invisibility, etc.
 
-Org-mode can utilize =htmlize= when =org-export-as-html= for source code syntax
+Org-mode can utilize =htmlize= when =org-html-export-as-html= for source code syntax
 highlighting if =htmlize= is available.
 
 However, there's a minor problem with oh-my-emacs's default settings of
@@ -154,15 +198,51 @@ code block, which may be a bug of =rainbow-delimiters-mode=.
 
   (ome-install 'htmlize)
 #+END_SRC
-* Org-CDLaTeX
+
+* Org-LaTeX
   :PROPERTIES:
   :CUSTOM_ID: org-latex
+  :END:
+
+Syntax highlighting is really cool when export org-mode files to other
+formats. We get syntax highlighting for html by [[http://www.emacswiki.org/emacs/Htmlize][htmlize.el]], so what about
+\LaTeX{}?
+
+Actually, org-mode has builtin support for syntax highlighting in \LaTeX{},
+check the builtin documentation via =C-h v org-latex-listings RET=. Check post
+[[http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html][1]] and [[http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/][2]] for technical details.
+
+Note that the following code snippet works with org-mode 8.x branch. So if you
+still use org-mode 7.x, you may need to [[http://orgmode.org/worg/org-tutorials/org-latex-export.html#sec-12-3][setup manually]].
+
+#+NAME: org-latex
+#+BEGIN_SRC emacs-lisp
+  ;; code snippet comes from
+  ;; http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html
+  ;; Include the latex-exporter
+  ;; check whether org-mode 8.x is available
+  (when (require 'ox-latex nil 'noerror)
+    ;; Add minted to the defaults packages to include when exporting.
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    ;; Tell the latex export to use the minted package for source
+    ;; code coloration.
+    (setq org-latex-listings 'minted)
+    ;; Let the exporter use the -shell-escape option to let latex
+    ;; execute external programs.
+    ;; This obviously and can be dangerous to activate!
+    (setq org-latex-pdf-process
+          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+#+END_SRC
+
+* Org-CDLaTeX
+  :PROPERTIES:
+  :CUSTOM_ID: org-cdlatex
   :END:
 
 If [[http://staff.science.uva.nl/~dominik/Tools/cdlatex/][CDLaTeX]] is available, turn on it in org-mode. See "[[http://www.gnu.org/software/emacs/manual/html_node/org/CDLaTeX-mode.html][Using CDLaTeX to enter
 math]]" for details.
 
-#+NAME: org-latex
+#+NAME: org-cdlatex
 #+BEGIN_SRC emacs-lisp
   (when (el-get-package-is-installed 'cdlatex-mode)
     (add-hook 'org-mode-hook 'turn-on-org-cdlatex))
