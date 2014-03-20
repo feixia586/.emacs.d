@@ -195,6 +195,11 @@ editor".
 * Tips
 - You need to install =emacs24-el= in ubuntu, or =org-export= won't work. I
   don't know why.
+- To make you work smoothly in Python mode (Elpy), you might need to do the following (flake8 should be automatically installed 
+  along with elpy, if not, install it manually):
+  #+BEGIN_SRC sh
+  sudo pip install elpy rope jedi
+  #+END_SRC
 
 * Footnotes
 [1] [[http://en.wikipedia.org/wiki/Editor_war][Editor war]]
