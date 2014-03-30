@@ -200,6 +200,7 @@ editor".
   #+BEGIN_SRC sh
   sudo pip install elpy rope jedi
   #+END_SRC
+- .mc-lists.el stores if you want to do evil-command for all multiple cursors.
 
 * Footnotes
 [1] [[http://en.wikipedia.org/wiki/Editor_war][Editor war]]
