@@ -106,6 +106,11 @@ inversion of gas-comment-region"
 (global-set-key (kbd "C-M-;") 'comment-or-uncomment-line-or-region)
 ;(define-key c-mode-base-map (kbd "C-/") 'comment-or-uncomment-line-or-region)
 
+;; in web-mode, set C-c C-v to preview the html
+(add-hook 'web-mode-hook 
+ (lambda () (local-set-key (kbd "C-c C-v") #'browse-url-of-buffer)))
+;(global-set-key (kbd "C-c C-v") 'browse-url-of-buffer)
+
 ;; add pdflatex engine for tex. Methods: M-x group-customize -> auctex -> tex-command
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -147,3 +152,11 @@ inversion of gas-comment-region"
 (custom-set-variables
   '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/" t)))
   '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+
+;; multiple-cursors.el
+(add-to-list 'load-path "~/.emacs.d/fei/multiple-cursors.el-1.3.0")
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
