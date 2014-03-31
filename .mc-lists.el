@@ -4,17 +4,18 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-        evil-append
         evil-backward-char
+        evil-delete
         evil-delete-backward-char-and-join
+        evil-delete-char
+        evil-ex
         evil-forward-char
         evil-insert
-        evil-next-line
         evil-normal-state
-        evil-previous-line
         sp--self-insert-command
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        evil-mouse-drag-region
         ))

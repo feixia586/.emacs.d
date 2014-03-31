@@ -107,7 +107,7 @@ inversion of gas-comment-region"
 ;(define-key c-mode-base-map (kbd "C-/") 'comment-or-uncomment-line-or-region)
 
 ;; in web-mode, set C-c C-v to preview the html
-(add-hook 'web-mode-hook 
+(add-hook 'web-mode-hook
  (lambda () (local-set-key (kbd "C-c C-v") #'browse-url-of-buffer)))
 ;(global-set-key (kbd "C-c C-v") 'browse-url-of-buffer)
 
@@ -117,13 +117,18 @@ inversion of gas-comment-region"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-engine-alist (quote ((pdflatex "pdflatex" "pdftex" "pdflatex" "")))))
+ '(TeX-engine-alist (quote ((pdflatex "pdflatex" "pdftex" "pdflatex" ""))))
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/" t))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
+ '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" default)))
+ '(matlab-shell-command-switches (quote ("-nodesktop -nosplash"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ac-emacs-eclim-candidate-face ((t (:inherit ac-candidate-face))))
+ '(ac-emacs-eclim-selection-face ((t (:inherit ac-selection-face)))))
 
 ;; set default tex engine
 (setq-default TeX-engine 'pdflatex)
@@ -131,8 +136,7 @@ inversion of gas-comment-region"
 ;; Setting up matlab-mode
 (add-to-list 'load-path "~/.emacs.d/fei/matlab-emacs")
 (load-library "matlab-load")
-(custom-set-variables
- '(matlab-shell-command-switches '("-nodesktop -nosplash")))
+
 (add-hook 'matlab-mode
         (lambda ()
           (auto-complete-mode 1)
@@ -149,14 +153,43 @@ inversion of gas-comment-region"
 (make-directory "~/.emacs.d/autosaves/" t)
 (make-directory "~/.emacs.d/backups/" t)
 ; put files
-(custom-set-variables
-  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/" t)))
-  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
 
-;; multiple-cursors.el
+
+;;; multiple-cursors
 (add-to-list 'load-path "~/.emacs.d/fei/multiple-cursors.el-1.3.0")
 (require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+
+;;; given by https://github.com/glynnforrest/emacs.d/blob/master/setup-multiple-cursors.el
+;; Thanks to tkf on
+;; https://github.com/magnars/multiple-cursors.el/issues/19
+;; insert state has been changed to emacs state
+;(defvar my-mc-evil-previous-state nil)
+;
+;(defun my-mc-evil-switch-to-emacs-state ()
+;  (when (and (bound-and-true-p evil-mode)
+;             (not (eq evil-state 'emacs)))
+;    (setq my-mc-evil-previous-state evil-state)
+;    (evil-emacs-state)))
+;
+;(defun my-mc-evil-back-to-previous-state ()
+;  (when my-mc-evil-previous-state
+;    (unwind-protect
+;        (case my-mc-evil-previous-state
+;          ((normal visual insert) (evil-force-normal-state))
+;          (t (message "Don't know how to handle previous state: %S"
+;                      my-mc-evil-previous-state)))
+;      (setq my-mc-evil-previous-state nil))))
+;
+;(add-hook 'multiple-cursors-mode-enabled-hook
+;          'my-mc-evil-switch-to-emacs-state)
+;(add-hook 'multiple-cursors-mode-disabled-hook
+;          'my-mc-evil-back-to-previous-state)
+;
+;
+;(provide 'setup-multiple-cursors)
+
+
